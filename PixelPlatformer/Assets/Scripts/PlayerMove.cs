@@ -200,6 +200,21 @@ public class PlayerMove : Entity
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag.Equals("Money"))
+        {
+            MoneyCollect1.moneyCount += 100;
+            Destroy(collision.gameObject);
+        }
+
+        if (collision.tag.Equals("Card"))
+        {
+            CardCollect.cardCount += 1;
+            Destroy(collision.gameObject);
+        }
+    }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;

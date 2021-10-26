@@ -13,7 +13,8 @@ public class Entity : MonoBehaviour
         if (lives < 1)
         {
             Die();
-            
+            MoneyCollect1.moneyCount += 200;
+
         }
     }
 
