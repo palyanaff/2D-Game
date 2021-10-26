@@ -8,6 +8,7 @@ public class LosePlatform : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<Entity>())
         {
+            
             collision.gameObject.GetComponent<Entity>().Die();
         }
     }

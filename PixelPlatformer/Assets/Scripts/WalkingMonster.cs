@@ -21,6 +21,7 @@ public class WalkingMonster : Entity
 
     }
 
+
     private void Move()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position + transform.up * 0.1f + transform.right * dir.x * 0.7f, 0.1f);

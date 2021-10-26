@@ -7,6 +7,7 @@ public class PlayerMove : Entity
     public Rigidbody2D rb;
     public Animator anim;
     public SpriteRenderer sr;
+    [SerializeField] private GameObject losePanel;
 
     public static PlayerMove Instance { get; set; }
 
@@ -113,8 +114,11 @@ public class PlayerMove : Entity
             lockLunge = true;
             Invoke("LungeLock", 2f);
 
-            anim.StopPlayback();
-            anim.Play("lunge");
+            if (lives > 0)
+            {
+                anim.StopPlayback();
+                anim.Play("lunge");
+            }
 
             rb.velocity = new Vector2(0, 0);
 
@@ -139,8 +143,25 @@ public class PlayerMove : Entity
         {
             Die();
         }
+
+        if (lives > 0) { 
+            anim.StopPlayback();
+            anim.Play("Damage");
+        }
+        
+    }
+
+    public override void Die()
+    {
         anim.StopPlayback();
-        anim.Play("Damage");
+        anim.Play("Die");
+        Invoke("SetLosePanel", 1f);
+    }
+
+    private void SetLosePanel()
+    {
+        losePanel.SetActive(true);
+        Time.timeScale = 0;
     }
 
     public bool isAttacking = false;
@@ -154,8 +175,11 @@ public class PlayerMove : Entity
     {
         if (onGround && isRecharged)
         {
-            anim.StopPlayback();
-            anim.Play("Attack");
+            if (lives > 0) { 
+                anim.StopPlayback();
+                anim.Play("Attack");
+            }
+            
 
             isAttacking = true;
             isRecharged = false;
