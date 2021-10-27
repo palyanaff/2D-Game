@@ -1,13 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMove : Entity
 {
     public Rigidbody2D rb;
     public Animator anim;
     public SpriteRenderer sr;
+    private int health;
     [SerializeField] private GameObject losePanel;
+    [SerializeField] private Image[] hearts;
+
+    [SerializeField] private Sprite aliveHeart;
+    [SerializeField] private Sprite deadHeart;
 
     public static PlayerMove Instance { get; set; }
 
@@ -19,6 +25,7 @@ public class PlayerMove : Entity
         sr = GetComponent<SpriteRenderer>();
         isRecharged = true;
         lives = 5;
+        health = lives;
     }
 
     void Update()
@@ -32,6 +39,31 @@ public class PlayerMove : Entity
         if (Input.GetButtonDown("Fire1"))
             Attack();
         
+        if (health > lives)
+        {
+            health = lives;
+        }
+
+        for (int i = 0; i < hearts.Length; i++)
+        {
+            if (i < health)
+            {
+                hearts[i].sprite = aliveHeart;
+            }
+            else
+            {
+                hearts[i].sprite = deadHeart;
+            }
+
+            if (i < lives)
+            {
+                hearts[i].enabled = true; 
+            }
+            else
+            {
+                hearts[i].enabled = false;
+            }
+        }
     }
 
     void FixedUpdate()
@@ -135,15 +167,17 @@ public class PlayerMove : Entity
 
     public override void GetDamage()
     {
-        lives--;
+        health--;
         Debug.Log(lives);
 
-        if (lives < 1)
+        if (health == 0)
         {
+            foreach (var h in hearts)
+                h.sprite = deadHeart;
             Die();
         }
 
-        if (lives > 0) { 
+        if (health > 0) { 
             anim.StopPlayback();
             anim.Play("Damage");
         }
