@@ -64,6 +64,9 @@ public class PlayerMove : Entity
                 hearts[i].enabled = false;
             }
         }
+
+        laugeBar.SetMaxLauge(2);
+
     }
 
     void FixedUpdate()
@@ -137,13 +140,18 @@ public class PlayerMove : Entity
     }
 
     public int lungeImoulse = 5000;
+    public LaugeBar laugeBar;
+    public float laugeCD;
 
     void Lunge()
     {
         if (Input.GetKeyDown(KeyCode.LeftControl) && !lockLunge)
         {
             lockLunge = true;
+            laugeCD = 0;
+            laugeBar.SetLauge(laugeCD);
             Invoke("LungeLock", 2f);
+            
 
             if (lives > 0)
             {
@@ -162,6 +170,8 @@ public class PlayerMove : Entity
 
     void LungeLock()
     {
+        laugeCD = 2;
+        laugeBar.SetLauge(laugeCD);
         lockLunge = false;
     }
 
