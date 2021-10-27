@@ -19,7 +19,7 @@ public class CardCollect : MonoBehaviour
         {
             cardImg.SetActive(true);
         }
-        else
+        else if (cardCount == 0)
         {
             cardImg.SetActive(false);
         }

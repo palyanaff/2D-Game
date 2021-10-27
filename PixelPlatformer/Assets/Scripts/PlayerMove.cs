@@ -41,7 +41,6 @@ public class PlayerMove : Entity
 
     public Vector2 moveVector;
     public float speed = 3f;
-
     public bool faceRight = true;
 
     void walk()
@@ -155,6 +154,7 @@ public class PlayerMove : Entity
     {
         anim.StopPlayback();
         anim.Play("Die");
+        speed = 0f;
         Invoke("SetLosePanel", 1f);
     }
 
@@ -196,7 +196,7 @@ public class PlayerMove : Entity
         for (int i = 0; i < colliders.Length; i++)
         {
             colliders[i].GetComponent<Entity>().GetDamage();
-            
+            StartCoroutine(EnemyOnAttack(colliders[i]));
         }
     }
 
@@ -210,8 +210,20 @@ public class PlayerMove : Entity
 
         if (collision.tag.Equals("Card"))
         {
-            CardCollect.cardCount += 1;
+            CardCollect.cardCount++;
             Destroy(collision.gameObject);
+        }
+
+        if (collision.tag.Equals("Chest"))
+        {
+            if (CardCollect.cardCount > 0)
+            {
+                CardCollect.cardCount--;
+                MoneyCollect1.moneyCount += 500;
+                //anim.Play("Chest");
+                Destroy(collision.gameObject);
+            }
+            
         }
     }
 
@@ -231,6 +243,17 @@ public class PlayerMove : Entity
     {
         yield return new WaitForSeconds(0.5f);
         isRecharged = true;
+    }
+
+    private IEnumerator EnemyOnAttack(Collider2D enemy)
+    {
+        SpriteRenderer enemyColor = enemy.GetComponentInChildren<SpriteRenderer>();
+        enemyColor.color = new Color(0.79f, 0f, 0f);
+        yield return new WaitForSeconds(0.2f);
+        if (enemy != null)
+        {
+            enemyColor.color = new Color(1, 1, 1); 
+        }
     }
 
 }
