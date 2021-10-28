@@ -10,6 +10,7 @@ public class PlayerMove : Entity
     public SpriteRenderer sr;
     private int health;
     [SerializeField] private GameObject losePanel;
+    [SerializeField] private GameObject finishPanel;
     [SerializeField] private Image[] hearts;
 
     [SerializeField] private Sprite aliveHeart;
@@ -75,7 +76,7 @@ public class PlayerMove : Entity
     }
 
     public Vector2 moveVector;
-    public float speed = 3f;
+    public float speed = 5f;
     public bool faceRight = true;
 
     void walk()
@@ -198,7 +199,7 @@ public class PlayerMove : Entity
     {
         anim.StopPlayback();
         anim.Play("Die");
-        speed = 0f;
+        Time.timeScale = 0;
         Invoke("SetLosePanel", 1f);
     }
 
@@ -267,6 +268,13 @@ public class PlayerMove : Entity
                 //Destroy(collision.gameObject);
             }
             
+        }
+
+        if (collision.tag.Equals("Finish"))
+        {
+            finishPanel.SetActive(true);
+            Time.timeScale = 0;
+            Debug.Log("Yes");
         }
     }
 
