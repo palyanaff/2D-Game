@@ -52,6 +52,11 @@ public class WalkingMonster : Entity
     {
         speed = 0f;
         anim.SetTrigger("Death");
+        Invoke("DestroyBiker", 1f);
+    }
+
+    private void DestroyBiker()
+    {
         Destroy(this.gameObject);
     }
 }

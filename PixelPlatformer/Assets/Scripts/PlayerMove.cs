@@ -178,7 +178,7 @@ public class PlayerMove : Entity
     public override void GetDamage()
     {
         health--;
-        Debug.Log(lives);
+        
 
         if (health == 0)
         {
@@ -264,8 +264,7 @@ public class PlayerMove : Entity
             {
                 CardCollect.cardCount--;
                 MoneyCollect1.moneyCount += 500;
-                //anim.Play("Chest");
-                Destroy(collision.gameObject);
+                //Destroy(collision.gameObject);
             }
             
         }
