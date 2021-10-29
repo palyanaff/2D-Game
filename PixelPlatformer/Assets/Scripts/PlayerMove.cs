@@ -265,7 +265,7 @@ public class PlayerMove : Entity
             {
                 CardCollect.cardCount--;
                 MoneyCollect1.moneyCount += 500;
-                //Destroy(collision.gameObject);
+                Destroy(collision.gameObject);
             }
             
         }
@@ -274,7 +274,6 @@ public class PlayerMove : Entity
         {
             finishPanel.SetActive(true);
             Time.timeScale = 0;
-            Debug.Log("Yes");
         }
     }
 

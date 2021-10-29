@@ -9,6 +9,7 @@ public class Finish : MonoBehaviour
 
     private void Awake()
     {
+        finishPanel.SetActive(true);
         finishPanel.SetActive(false);
     }
 
