@@ -199,7 +199,7 @@ public class PlayerMove : Entity
     {
         anim.StopPlayback();
         anim.Play("Die");
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
         Invoke("SetLosePanel", 1f);
     }
 
