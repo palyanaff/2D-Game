@@ -14,7 +14,6 @@ public class Barrel : Entity
         if (collision.gameObject == PlayerMove.Instance.gameObject)
         {
             lives--;
-            Debug.Log("У бочки: " + lives);
         }
 
         if (lives < 1)
