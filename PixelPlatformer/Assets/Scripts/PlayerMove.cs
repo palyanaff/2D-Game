@@ -88,7 +88,7 @@ public class PlayerMove : Entity
 
     void Reflect()
     {
-        if ((moveVector.x > 0 && !faceRight) || (moveVector.x < 0 && faceRight))
+        if (((moveVector.x > 0 && !faceRight) || (moveVector.x < 0 && faceRight)) && health > 0)
         {
             transform.localScale *= new Vector2(-1, 1);
             faceRight = !faceRight;
@@ -118,6 +118,7 @@ public class PlayerMove : Entity
         {
             if (jumpIteration++ < jumpValueIteration)
             {
+                //rb.velocity = new Vector2(rb.velocity.x, 0);
                 rb.AddForce(Vector2.up * jumpForce / jumpIteration);
             }
         }
@@ -146,7 +147,7 @@ public class PlayerMove : Entity
 
     void Lunge()
     {
-        if (Input.GetKeyDown(KeyCode.LeftControl) && !lockLunge)
+        if (Input.GetKeyDown(KeyCode.LeftControl) && !lockLunge && health > 0)
         {
             lockLunge = true;
             laugeCD = 0;
@@ -154,7 +155,7 @@ public class PlayerMove : Entity
             Invoke("LungeLock", 2f);
             
 
-            if (lives > 0)
+            if (health > 0)
             {
                 anim.StopPlayback();
                 anim.Play("lunge");
@@ -199,6 +200,10 @@ public class PlayerMove : Entity
     {
         anim.StopPlayback();
         anim.Play("Die");
+        health = 0;
+        speed = 0;
+        jumpForce = 0;
+        //lungeImoulse = 0;
         //Time.timeScale = 0;
         Invoke("SetLosePanel", 1f);
     }
@@ -220,7 +225,7 @@ public class PlayerMove : Entity
     {
         if (onGround && isRecharged)
         {
-            if (lives > 0) { 
+            if (health > 0) { 
                 anim.StopPlayback();
                 anim.Play("Attack");
             }
